@@ -1,10 +1,12 @@
 # Disable language detection for all files
 * linguist-detectable=false
 
-# Enable language detection for YAML files
+# Enable language detection for files
 *.yml linguist-detectable=true
 *.yaml linguist-detectable=true
+*.go linguist-detectable=true
 
-# Set YAML files to be treated as YAML
+# Set files to be treated
 *.yml linguist-language=YAML
 *.yaml linguist-language=YAML
+*.go linguist-language=Go
