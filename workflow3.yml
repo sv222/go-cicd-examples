@@ -1,0 +1,36 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Go environment
+      uses: actions/setup-go@v2
+      with:
+        go-version: '1.20'
+
+    - name: Lint code
+      uses: golangci/golangci-lint-action@v2
+      with:
+        args: ['run', '--enable-all']
+
+    - name: Build and test
+      run: |
+        go build -o my-go-app .
+        go test ./integration_tests/...
+
+    - name: Publish Docker image
+      if: success()
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: my-go-app:latest
